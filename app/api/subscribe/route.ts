@@ -63,7 +63,12 @@ export async function POST(req: NextRequest) {
     createdAt: new Date().toISOString(),
   });
 
-  await writeSubscribers(subscribers);
+  try {
+    await writeSubscribers(subscribers);
+  } catch {
+    // filesystem read-only en production (Vercel) — log uniquement
+    console.log("new_subscriber", { email: cleanEmail, variant: cleanVariant, source: cleanSource });
+  }
 
   return NextResponse.json({ success: true });
 }
