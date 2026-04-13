@@ -58,9 +58,6 @@ export default function Page({ searchParams }: PageProps) {
           </p>
           <div className="flex items-center justify-center gap-3 pt-2">
             <div className="h-px w-12 bg-accent/30" />
-            <span className="text-white/30 text-xs tracking-widest font-mono">
-              VARIANT {variant}
-            </span>
             <div className="h-px w-12 bg-accent/30" />
           </div>
         </section>
