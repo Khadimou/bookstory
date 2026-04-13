@@ -11,6 +11,10 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        accent: "#f5c842",
+      },
+      fontFamily: {
+        playfair: ["var(--font-playfair)", "Georgia", "serif"],
       },
     },
   },
