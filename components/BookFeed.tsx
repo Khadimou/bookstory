@@ -4,6 +4,15 @@ import { useState, useRef } from "react";
 
 const BOOKS = [
   {
+    id: 0,
+    title: "Crime et Châtiment",
+    author: "Dostoïevski",
+    year: "1866",
+    excerpt:
+      "Il avait tué. Il avait cru que ça le laisserait indifférent — parce qu'il avait prouvé, par la logique, que certains hommes avaient le droit de le faire. La logique avait tenu. Lui, non.",
+    tag: "CLASSIQUE",
+  },
+  {
     id: 1,
     title: "Orgueil et Préjugés",
     author: "Jane Austen",

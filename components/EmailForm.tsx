@@ -16,10 +16,9 @@ export default function EmailForm({ variant }: EmailFormProps) {
     e.preventDefault();
     if (!email) return;
 
-    posthog.capture("email_captured", {
-      variant,
+    posthog.capture("email_submitted", {
+      hook_variant: variant,
       source: "landing_page",
-      email,
     });
 
     try {
@@ -68,7 +67,7 @@ export default function EmailForm({ variant }: EmailFormProps) {
           type="submit"
           className="bg-accent text-black font-semibold rounded-xl px-6 py-3 text-sm hover:bg-accent/90 active:scale-95 transition-all whitespace-nowrap"
         >
-          Être notifié au lancement
+          Recevoir les extraits chaque semaine
         </button>
       </div>
       {status === "error" && (

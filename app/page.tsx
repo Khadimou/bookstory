@@ -1,11 +1,18 @@
 import { Playfair_Display } from "next/font/google";
 import BookFeed from "@/components/BookFeed";
 import EmailForm from "@/components/EmailForm";
+import LandingTracker from "@/components/LandingTracker";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
 });
+
+// Correspondance variants → vidéos TikTok
+// ?hook=D → Vidéo TikTok : Crime et Châtiment (Dostoïevski)
+// ?hook=B → Vidéo TikTok : Le Lys dans la vallée (Balzac)
+// ?hook=C → Vidéo TikTok : Les Misérables (Victor Hugo)
+// ?hook=A → variant original (contrôle)
 
 const HOOKS: Record<string, { label: string; text: string }> = {
   A: {
@@ -20,23 +27,29 @@ const HOOKS: Record<string, { label: string; text: string }> = {
     label: "BookTok a raison ?",
     text: "✨ BookTok a mis ce roman en tendance. On t'en donne les meilleurs extraits.",
   },
+  D: {
+    label: "Tu viens de TikTok ?",
+    text: "Tu viens de TikTok ? La suite de l'extrait est juste en dessous 👇",
+  },
 };
 
-const DEFAULT_HOOK = HOOKS["A"];
+const DEFAULT_HOOK = HOOKS["D"];
 
 interface PageProps {
   searchParams: { hook?: string };
 }
 
 export default function Page({ searchParams }: PageProps) {
-  const hookKey = (searchParams.hook ?? "A").toUpperCase();
+  const hookKey = (searchParams.hook ?? "D").toUpperCase();
   const hook = HOOKS[hookKey] ?? DEFAULT_HOOK;
-  const variant = hookKey in HOOKS ? hookKey : "A";
+  const variant = hookKey in HOOKS ? hookKey : "D";
 
   return (
     <main
       className={`${playfair.variable} min-h-screen bg-[#0d0d0d] text-white`}
     >
+      <LandingTracker variant={variant} />
+
       {/* TikTok Hook Banner */}
       <div className="w-full bg-accent/10 border-b border-accent/20 px-4 py-3">
         <p className="text-center text-accent text-sm font-mono tracking-wide">
@@ -77,7 +90,7 @@ export default function Page({ searchParams }: PageProps) {
               Sois parmi les premiers
             </h2>
             <p className="text-white/40 text-sm">
-              Reçois un accès anticipé et les meilleurs extraits chaque semaine.
+              Un extrait marquant chaque semaine. Gratuit.
             </p>
           </div>
           <EmailForm variant={variant} />
