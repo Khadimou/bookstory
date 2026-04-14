@@ -56,8 +56,8 @@ async function getActiveVisitors(): Promise<number> {
 }
 
 export async function GET(req: NextRequest) {
-  const pwd = req.nextUrl.searchParams.get("pwd");
-  if (pwd !== process.env.DASHBOARD_PASSWORD) {
+  const auth = req.cookies.get("dashboard_auth")?.value;
+  if (!auth || auth !== process.env.DASHBOARD_PASSWORD) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

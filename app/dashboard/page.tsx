@@ -1,5 +1,7 @@
 import { Playfair_Display } from "next/font/google";
+import { cookies } from "next/headers";
 import DashboardClient from "@/components/DashboardClient";
+import { loginDashboard } from "./actions";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -7,14 +9,15 @@ const playfair = Playfair_Display({
 });
 
 interface DashboardPageProps {
-  searchParams: { pwd?: string };
+  searchParams: { error?: string };
 }
 
-export default function DashboardPage({ searchParams }: DashboardPageProps) {
-  const pwd = searchParams.pwd ?? "";
-  const correct = process.env.DASHBOARD_PASSWORD;
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const cookieStore = await cookies();
+  const auth = cookieStore.get("dashboard_auth")?.value;
+  const isAuthenticated = !!auth && auth === process.env.DASHBOARD_PASSWORD;
 
-  if (!correct || pwd !== correct) {
+  if (!isAuthenticated) {
     return (
       <main
         className={`${playfair.variable} min-h-screen bg-[#0d0d0d] text-white flex items-center justify-center px-4`}
@@ -26,11 +29,7 @@ export default function DashboardPage({ searchParams }: DashboardPageProps) {
             </h1>
             <p className="text-white/40 text-sm">Accès dashboard restreint</p>
           </div>
-          <form
-            method="GET"
-            action="/dashboard"
-            className="space-y-3"
-          >
+          <form action={loginDashboard} className="space-y-3">
             <input
               type="password"
               name="pwd"
@@ -45,7 +44,7 @@ export default function DashboardPage({ searchParams }: DashboardPageProps) {
               Accéder
             </button>
           </form>
-          {pwd && pwd !== correct && (
+          {searchParams.error && (
             <p className="text-red-400 text-xs text-center">Mot de passe incorrect.</p>
           )}
         </div>
@@ -55,7 +54,7 @@ export default function DashboardPage({ searchParams }: DashboardPageProps) {
 
   return (
     <main className={`${playfair.variable}`}>
-      <DashboardClient pwd={pwd} />
+      <DashboardClient />
     </main>
   );
 }

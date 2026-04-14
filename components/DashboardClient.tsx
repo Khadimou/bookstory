@@ -59,14 +59,14 @@ function ConversionRate({ submitted, viewed }: { submitted: number; viewed: numb
   return <span className="text-accent font-bold">{rate}%</span>;
 }
 
-export default function DashboardClient({ pwd }: { pwd: string }) {
+export default function DashboardClient() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await fetch(`/api/dashboard?pwd=${encodeURIComponent(pwd)}`);
+      const res = await fetch("/api/dashboard");
       if (!res.ok) {
         setError("Erreur lors du chargement des données.");
         return;
@@ -78,7 +78,7 @@ export default function DashboardClient({ pwd }: { pwd: string }) {
     } catch {
       setError("Impossible de contacter le serveur.");
     }
-  }, [pwd]);
+  }, []);
 
   useEffect(() => {
     fetchData();
