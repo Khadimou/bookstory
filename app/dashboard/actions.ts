@@ -12,7 +12,7 @@ export async function loginDashboard(formData: FormData) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 60 * 60 * 8, // 8 heures
-      path: "/dashboard",
+      path: "/",
     });
     redirect("/dashboard");
   }
